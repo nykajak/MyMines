@@ -51,10 +51,4 @@ class MainMenu(ttk.Frame):
         Item(self,"Cols",self.cols,(1,10)).grid(row = 1, column = 0, sticky = [W,E])
         Item(self,"Bombs",self.bombs,(1,20)).grid(row = 2, column = 0, sticky = [W,E])
         
-        ttk.Button(self,text = "Start", command = self.start).grid(row = 3, column = 0, padx =5, pady = 5)
-
-    def start(self):
-        print(f"Rows = {self.rows.get()}!")
-        print(f"Cols = {self.cols.get()}!")
-        print(f"Bombs = {self.bombs.get()}!")
-        print()
+        ttk.Button(self,text = "Start", command = lambda: window.start(self.rows.get(),self.cols.get(),self.bombs.get())).grid(row = 3, column = 0, padx =5, pady = 5)
