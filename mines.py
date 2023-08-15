@@ -22,6 +22,7 @@ class App(Tk):
         grid_info.generate_grid()
 
         self.curr_focus = Game(self,grid_info)
+        # self.curr_focus.grid(row = 0, column = 0)
 
 
 if __name__ == "__main__":
