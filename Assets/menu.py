@@ -1,5 +1,4 @@
-from tkinter import ttk
-import tkinter as tk
+from tkinter import ttk, W,E,S,N, IntVar
 
 class Item(ttk.Frame):
     def __init__(self,container,label,var,limits):
@@ -10,8 +9,8 @@ class Item(ttk.Frame):
         self.columnconfigure(1,weight = 1)
         self.limits = limits
 
-        ttk.Label(self, text = label).grid(row = 0, column = 0, sticky = tk.W)
-        ttk.Label(self, textvariable = self.variable, width = 2).grid(row = 0, column = 1, sticky = tk.E)
+        ttk.Label(self, text = label).grid(row = 0, column = 0, sticky = W)
+        ttk.Label(self, textvariable = self.variable, width = 2).grid(row = 0, column = 1, sticky = E)
         self.decrementor = ttk.Button(self,text = "-", command = lambda:self.setVar(-1),width = 2)
         self.decrementor.grid(row = 0, column = 2)
         self.incrementor = ttk.Button(self,text = "+",command = lambda: self.setVar(1),width = 2)
@@ -44,13 +43,13 @@ class MainMenu(ttk.Frame):
 
         self.rowconfigure(0,weight=1) 
 
-        self.rows = tk.IntVar(value = 8)
-        self.cols = tk.IntVar(value = 8)
-        self.bombs = tk.IntVar(value = 10)
+        self.rows = IntVar(value = 8)
+        self.cols = IntVar(value = 8)
+        self.bombs = IntVar(value = 10)
 
-        Item(self,"Rows",self.rows,(1,10)).grid(row = 0, column = 0, sticky = [tk.W,tk.E])
-        Item(self,"Cols",self.cols,(1,10)).grid(row = 1, column = 0, sticky = [tk.W,tk.E])
-        Item(self,"Bombs",self.bombs,(1,20)).grid(row = 2, column = 0, sticky = [tk.W,tk.E])
+        Item(self,"Rows",self.rows,(1,10)).grid(row = 0, column = 0, sticky = [W,E])
+        Item(self,"Cols",self.cols,(1,10)).grid(row = 1, column = 0, sticky = [W,E])
+        Item(self,"Bombs",self.bombs,(1,20)).grid(row = 2, column = 0, sticky = [W,E])
         
         ttk.Button(self,text = "Start", command = self.start).grid(row = 3, column = 0, padx =5, pady = 5)
 

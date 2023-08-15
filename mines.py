@@ -1,5 +1,5 @@
 from tkinter import Tk
-from Assets.menu import MainMenu
+from Assets import MainMenu
 
 class App(Tk):
     def __init__(self):
