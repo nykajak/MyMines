@@ -1,5 +1,5 @@
 from random import randint
-class GridInfo:
+class MineFieldInfo:
     def __init__(self, num_rows, num_cols, num_bombs):
         self.num_rows = num_rows
         self.num_cols = num_cols

@@ -1,5 +1,5 @@
 from tkinter import Tk
-from Assets.Main import MainMenu, Game, GridInfo
+from Assets.Main import MainMenu, Game, MineFieldInfo
 
 class App(Tk):
     def __init__(self):
@@ -18,10 +18,10 @@ class App(Tk):
 
     def start(self,num_rows,num_cols,num_bombs):
         self.curr_focus.destroy()
-        grid_info = GridInfo(num_rows,num_cols,num_bombs)
-        grid_info.generate_grid()
+        minefield_info = MineFieldInfo(num_rows,num_cols,num_bombs)
+        minefield_info.generate_grid()
 
-        self.curr_focus = Game(self,grid_info)
+        self.curr_focus = Game(self,minefield_info)
         # self.curr_focus.grid(row = 0, column = 0)
 
 
