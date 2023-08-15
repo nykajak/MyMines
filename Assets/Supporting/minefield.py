@@ -10,6 +10,7 @@ class MineField(Canvas):
         self.root = root
         self.minefield_info = minefield_info
         self.root.geometry(f"{width}x{height}")
+        self.flags = set()
 
         self.ids = [[0 for i in range(minefield_info.num_cols)] for j in range(minefield_info.num_rows)]
 
@@ -30,10 +31,44 @@ class MineField(Canvas):
 
                 self.ids[i][j] = self.draw_box(i,j,"gray75")
 
-        self.bind("<Button 1>", self.get_selected)
+        self.bind("<Button 1>", self.select_box)
+        self.bind("<Button 3>", self.flag_box)
+
+    def check_flags(self,flags = None):
+        correct_count = 0
+        for flag in flags:
+            if self.minefield_info.layout[flag[0]][flag[1]] == 9:
+                correct_count += 1
+
+        if correct_count == self.minefield_info.num_bombs:
+            return True
+        
+        return False
 
     def get_coords(self, event):
         return event.y // 50, event.x // 50
+    
+    def flag_box(self,event):
+        row,col = self.get_coords(event)
+        if self.ids[row][col] == 0:
+            return
+
+        if (row,col) in self.flags:
+            self.flags.remove((row,col))
+            self.delete(self.ids[row][col])
+            self.ids[row][col] = self.draw_box(row,col, "gray75")
+            
+        else:
+            if len(self.flags) == self.minefield_info.num_bombs:
+                return
+
+            self.delete(self.ids[row][col])
+            self.ids[row][col] = self.draw_box(row,col, "orange")
+            self.flags.add((row,col))
+
+        if len(self.flags) == self.minefield_info.num_bombs:
+            if self.check_flags(self.flags):
+                self.root.end(True)
     
     def generate_cells(self,row,col):
         self.delete(self.ids[row][col])
@@ -41,6 +76,10 @@ class MineField(Canvas):
         for x,y in self.minefield_info.get_neighbours(row,col):
             if self.ids[x][y] == 0:
                 continue
+
+            if (x,y) in self.flags:
+                self.flags.remove((x,y))
+                self.delete(self.ids[x][y])
 
             if self.minefield_info.layout[x][y] == 0:
                 self.generate_cells(x,y)
@@ -53,9 +92,12 @@ class MineField(Canvas):
         num = self.minefield_info.layout[row][col]
 
         if num == 9:
-            for row in self.ids:
-                for id in row:
-                    self.delete(id)
+            for i in range(self.minefield_info.num_rows):
+                for j in range(self.minefield_info.num_cols):
+                    self.delete(self.ids[i][j])
+                    self.ids[i][j] = 0
+
+            self.root.end(False)
         
         elif num == 0:
             self.generate_cells(row,col)
@@ -64,7 +106,7 @@ class MineField(Canvas):
             self.delete(self.ids[row][col])
             self.ids[row][col] = 0
         
-    def get_selected(self,event):
+    def select_box(self,event):
         row,col = self.get_coords(event)
         if self.ids[row][col] == 0:
             return
