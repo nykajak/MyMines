@@ -32,7 +32,7 @@ class App(Tk):
         width = self.winfo_width()
         height = self.winfo_width()
 
-        self.geometry(f"{width}x{height + 50}")
+        self.geometry(f"{width}x{height + 75}")
 
         if won:
             ttk.Label(self,text = "You Won!").pack()

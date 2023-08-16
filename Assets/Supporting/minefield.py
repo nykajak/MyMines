@@ -14,8 +14,8 @@ class MineField(Canvas):
 
         self.ids = [[0 for i in range(minefield_info.num_cols)] for j in range(minefield_info.num_rows)]
 
-        for row in minefield_info.layout:
-            print(row)
+        # for row in minefield_info.layout:
+        #     print(row)
 
         for i in range(minefield_info.num_rows):
             for j in range(minefield_info.num_cols):

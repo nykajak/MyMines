@@ -21,11 +21,10 @@ class MineFieldInfo:
         while (count < self.num_bombs):
             x,y = randint(0,self.num_rows - 1),randint(0,self.num_cols - 1)
 
-            if self.layout[x][y] != 9:
+            if self.layout[x][y] != 9 and (x,y) not in pos:
                 self.layout[x][y] = 9
                 pos.add((x,y))
-
-            count+=1
+                count+=1
 
         return pos
 
