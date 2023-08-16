@@ -11,6 +11,8 @@ class MineField(Canvas):
         self.minefield_info = minefield_info
         self.root.geometry(f"{width}x{height}")
         self.flags = set()
+        self.revealed = 0
+        self.non_bombs = minefield_info.num_cols * minefield_info.num_rows - minefield_info.num_bombs
 
         self.ids = [[0 for i in range(minefield_info.num_cols)] for j in range(minefield_info.num_rows)]
 
@@ -67,12 +69,15 @@ class MineField(Canvas):
             self.flags.add((row,col))
 
         if len(self.flags) == self.minefield_info.num_bombs:
-            if self.check_flags(self.flags):
-                self.root.end(True)
+            if self.revealed == self.non_bombs:
+                if self.check_flags(self.flags):
+                    self.root.end(True)
     
     def generate_cells(self,row,col):
         self.delete(self.ids[row][col])
         self.ids[row][col] = 0
+        self.revealed += 1
+
         for x,y in self.minefield_info.get_neighbours(row,col):
             if self.ids[x][y] == 0:
                 continue
@@ -87,6 +92,7 @@ class MineField(Canvas):
             else:
                 self.delete(self.ids[x][y])
                 self.ids[x][y] = 0
+                self.revealed += 1
     
     def reveal_tiles(self,row,col):
         num = self.minefield_info.layout[row][col]
@@ -105,6 +111,7 @@ class MineField(Canvas):
         else:
             self.delete(self.ids[row][col])
             self.ids[row][col] = 0
+            self.revealed += 1
         
     def select_box(self,event):
         row,col = self.get_coords(event)
@@ -112,6 +119,10 @@ class MineField(Canvas):
             return
         
         self.reveal_tiles(row,col)
+
+        if self.revealed == self.non_bombs:
+            if self.check_flags(self.flags):
+                    self.root.end(True)
 
     def draw_box(self, row, col, color):
         return self.create_rectangle(col * 50, row * 50, (col + 1) * 50, (row + 1) * 50, fill = color)
