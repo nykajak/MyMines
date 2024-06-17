@@ -1,4 +1,4 @@
-# tkinter-mines
+# MyMines
 This is my version of a cult classic game implemented entirely in python using Tkinter. This was 
 meant only as a way for me to familiarise myself with Tkinter and is not going to be maintained or
 updated further unless I decide to.
